@@ -9,9 +9,37 @@
 
 
 
-**<Diagram or Table>**
+[plantuml, context, svg]
+----
+@startuml
 
-**<optionally: Explanation of external domain interfaces>**
+left to right direction
+
+skinparam monochrome true
+skinparam shadowing false
+
+Actor User
+package NativeSDK{
+    component Eventsystem as event
+    component "Pygo Generator" as pygo
+}
+File "model.xml" as model
+File "configure.xml" as config
+File "event.xml" as event_xml
+File "source code" as source
+
+
+User --> model:write
+User --> config:write
+model <.. pygo:read
+config <.. pygo:read
+pygo --> source:generate
+pygo --> event_xml:generate
+event_xml --> event:generate
+event -> source:generate
+
+@enduml
+----
 
 === Technical Context
 
