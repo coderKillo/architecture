@@ -1,6 +1,4 @@
-# Architecture
-
-## Install
+# Install
 
 download template: https://arc42.org/download
 
