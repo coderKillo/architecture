@@ -3,107 +3,97 @@
 
 == Building Block View
 
-
-
 === Whitebox Overall System
 
+[plantuml, overall, svg]
+----
+@startuml
 
+left to right direction
 
-_**<Overview Diagram>**_
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle uml2
 
-Motivation::
+artifact "configure.xml" <<config>> as config
+artifact "pygo_events.xml" <<event xml>> as event_xml
+collections "*.xml" <<model>> as model
+collections "event_*.xml" <<event xml>> as event_x
+component NativeSDK <<system>> as system{
+    component Eventsystem as event
+    component Pygo_Generator as pygo
+}
+artifact "source code" <<source>> as source
+artifact "eventsystem" <<source>> as eventsystem
 
-_<text explanation>_
+model <.. pygo:read
+config <.. pygo:read
+event_x <.. event:read
 
+event_xml <.. event:read
+event_xml <-- pygo:generate
 
-Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
+pygo --> source:generate
+event --> eventsystem:generate
 
-Important Interfaces::
-_<Description of important interfaces>_
-
-
-
-
-==== <Name black box 1>
-
-
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-
-
-
-==== <Name black box 2>
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
+@enduml
+----
 
 === Level 2
 
+==== Pygo Generator
 
+[plantuml, overall, svg]
+----
+@startuml
 
-==== White Box _<building block 1>_
+left to right direction
 
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle uml2
 
+artifact "configure.xml" <<config>> as config
+artifact "pygo_events.xml" <<event xml>> as event_xml
+collections "*.xml" <<model>> as model
+component Pygo_Generator as pygo
+artifact "source code" <<source>> as source
 
-_<white box template>_
+model <.. pygo:read
+config <.. pygo:read
 
-==== White Box _<building block 2>_
+pygo --> event_xml:generate
+pygo --> source:generate
 
+@enduml
+----
 
-_<white box template>_
+==== Eventsystem
 
-...
+[plantuml, overall, svg]
+----
+@startuml
 
-==== White Box _<building block m>_
+left to right direction
 
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle uml2
 
-_<white box template>_
+collections "*.xml" <<event xml>> as event_x
+component Eventsystem as event{
+    file "merge_eventsystem.py" as merge
+    file "gen_eventsystem.py" as gen
+}
+artifact "eventsystem" <<source>> as eventsystem{
+    artifact "eventsystem.xml" as xml
+    artifact "cpp code" as events
+}
 
+event_x <.. merge:read
+merge --> xml:generate
+xml ..> gen: read
+gen --> events:generate
 
-
-=== Level 3
-
-
-
-
-==== White Box <_building block x.1_>
-
-
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+@enduml
+----

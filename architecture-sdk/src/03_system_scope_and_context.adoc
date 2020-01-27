@@ -17,36 +17,115 @@ left to right direction
 
 skinparam monochrome true
 skinparam shadowing false
+skinparam componentStyle uml2
 
 Actor User
-package NativeSDK{
-    component Eventsystem as event
-    component "Pygo Generator" as pygo
-}
-File "model.xml" as model
-File "configure.xml" as config
-File "event.xml" as event_xml
-File "source code" as source
+Actor Developer
+collections "models" <<model>> as model
+component NativeSDK <<system>> as system
+artifact "code" <<source>> as source
+artifact "implementation" <<feature>> as feature
+control "feature process" as process
 
 
-User --> model:write
-User --> config:write
-model <.. pygo:read
-config <.. pygo:read
-pygo --> source:generate
-pygo --> event_xml:generate
-event_xml --> event:generate
-event -> source:generate
+User -> model:write
+User --> system:configure
+feature <- User:create
+Developer -> system
+model <.. system:read
+system --> source:generate
+feature --> process
+process <- Developer
 
 @enduml
 ----
 
+.bussness context
+[Attributes]
+|===
+|Name |Description |Link
+
+| User
+|
+|
+
+| Developer
+|
+|
+
+| Impementation
+|
+|
+
+| Models
+|
+|
+
+| Source
+|
+|
+
+|===
+
+
 === Technical Context
 
 
+[plantuml, technical_context, svg]
+----
+@startuml
 
-**<Diagram or Table>**
+left to right direction
 
-**<optionally: Explanation of technical interfaces>**
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle uml2
 
-**<Mapping Input/Output to Channels>**
+Actor User
+Actor Developer
+collections "*.xml" <<model>> as model
+artifact "configure.xml" <<config>> as config
+collections "event_*.xml" <<source>> as event_x
+component NativeSDK <<system>> as system
+artifact "pygo_events.xml" <<source>> as event_xml
+artifact "source code" <<source>> as source
+
+
+User --> model:write
+User --> config:write
+User --> event_x:write
+Developer -> system
+model <.. system:read
+config <.. system:read
+event_x <.. system:read
+system -> source:generate
+system ..> event_xml:read
+system --> event_xml:generate
+
+@enduml
+----
+
+.bussness context
+[Attributes]
+|===
+|Name |Description |Link
+
+| Models
+|
+|
+
+| Event*.xml
+|
+|
+
+| pygo_events.xml
+|
+|
+
+| configure.xml
+|
+|
+|===
+
+
+
