@@ -43,7 +43,7 @@ event --> eventsystem:generate
 
 ==== Pygo Generator
 
-[plantuml, overall, svg]
+[plantuml, pygo_generator, svg]
 ----
 @startuml
 
@@ -70,7 +70,7 @@ pygo --> source:generate
 
 ==== Eventsystem
 
-[plantuml, overall, svg]
+[plantuml, eventsystem, svg]
 ----
 @startuml
 
