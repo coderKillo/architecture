@@ -1,0 +1,19 @@
+= EventDB
+
+== Overview
+
+[plantuml, "overview"]
+----
+@startuml
+collections "..." <<generator>> as generator
+artifact "event.xml" <<event xml>> as xml
+component "eventDB" as comp
+component pygo
+
+generator -> comp: register events
+generator <- comp: get events + event type
+comp -> xml: generates
+pygo .. comp
+
+@enduml
+----
